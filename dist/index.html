@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>JokiRuang — Websites for every stage</title>
+    <meta
+      name="description"
+      content="Thoughtful design. Precise development. Websites from Rp299.000, from a simple landing page to a custom web application."
+    />
+    <meta property="og:title" content="JokiRuang — Websites for every stage" />
+    <meta
+      property="og:description"
+      content="Explore clear website packages, compare options, and start your project with a quick brief."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#070B12" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%232f6bff'/%3E%3Cpath d='M11 11h18v18H11z' fill='none' stroke='white' stroke-width='3'/%3E%3Cpath d='M20 11v18M11 20h18' stroke='white' stroke-width='2'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem("jr-theme") || "dark";
+      } catch (e) {}
+    </script>
+    <script defer src="pricing-data.js"></script>
+    <script defer src="app.js"></script>
+    <script>
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("intro-pending");
+        setTimeout(function () {
+          document.documentElement.classList.remove("intro-pending");
+          document.getElementById("intro-wave")?.remove();
+        }, 3200);
+      }
+    </script>
+    <script defer src="intro.js"></script>
+  </head>
+  <body>
+    <div id="intro-wave" aria-hidden="true"></div>
+    <a class="skip" href="#main">Skip to content</a>
+    <header id="header">
+      <div class="nav wrap">
+        <a href="#home" class="brand" aria-label="JokiRuang home"
+          >jokiruang<span class="brand-dot">.</span></a
+        >
+        <nav class="desktop-nav" aria-label="Main">
+          <a href="#home" data-i="home" class="active" aria-current="location"
+            >Home</a
+          ><a href="#services" data-i="services">Services</a
+          ><a href="#pricing" data-i="pricing">Pricing</a
+          ><a href="#works" data-i="works">Works</a
+          ><a href="#process" data-i="process">Process</a><a href="#faq">FAQ</a
+          ><a href="#contact" data-i="contact">Contact</a>
+        </nav>
+        <div class="utilities">
+          <button class="language" aria-label="Switch language">
+            <span class="en">EN</span><span class="slash">/</span
+            ><span class="id">ID</span></button
+          ><button class="theme icon-btn" aria-label="Switch color theme">
+            ☼</button
+          ><button class="button small desktop-start" data-start="Custom">
+            <span data-i="start">Start a project</span
+            ><svg
+              class="ui-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14m-5-5 5 5-5 5" />
+            </svg></button
+          ><button
+            id="menu-toggle"
+            class="icon-btn mobile-only"
+            aria-label="Open menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            ☰
+          </button>
+        </div>
+      </div>
+      <nav id="mobile-menu" hidden>
+        <a href="#home" data-i="home" class="active" aria-current="location"
+          >Home</a
+        ><a href="#services" data-i="services"></a
+        ><a href="#pricing" data-i="pricing"></a
+        ><a href="#works" data-i="works"></a
+        ><a href="#process" data-i="process"></a><a href="#faq">FAQ</a
+        ><a href="#contact" data-i="contact"></a
+        ><button class="button" data-start="Custom" data-i="start"></button>
+      </nav>
+    </header>
+    <main id="main">
+      <section id="home" class="hero wrap">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span data-i="eyebrow">INDEPENDENT WEB DEVELOPMENT STUDIO</span>
+          </div>
+          <h1 data-i="headline">
+            Small beginnings.<br />Big possibilities<span class="blue">.</span>
+          </h1>
+          <div class="hero-community" aria-label="100+">
+            <span class="empty-avatars" aria-hidden="true"
+              ><span class="empty-avatar"
+                ><svg viewBox="0 0 32 32" aria-hidden="true">
+                  <circle cx="16" cy="12" r="5" fill="currentColor" />
+                  <path
+                    d="M6 29v-3a10 10 0 0 1 20 0v3Z"
+                    fill="currentColor"
+                  /></svg></span
+              ><span class="empty-avatar"
+                ><svg viewBox="0 0 32 32" aria-hidden="true">
+                  <circle cx="16" cy="12" r="5" fill="currentColor" />
+                  <path
+                    d="M6 29v-3a10 10 0 0 1 20 0v3Z"
+                    fill="currentColor"
+                  /></svg></span
+              ><span class="empty-avatar"
+                ><svg viewBox="0 0 32 32" aria-hidden="true">
+                  <circle cx="16" cy="12" r="5" fill="currentColor" />
+                  <path
+                    d="M6 29v-3a10 10 0 0 1 20 0v3Z"
+                    fill="currentColor"
+                  /></svg></span></span
+            ><span class="community-count">100<span>+</span></span>
+          </div>
+          <p class="hero-desc" data-i="intro"></p>
+          <div class="hero-actions">
+            <a class="button" href="#pricing"
+              ><span data-i="viewPackages"></span
+              ><svg
+                class="ui-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14m-5-5 5 5-5 5" /></svg></a
+            ><button class="text-button" data-whatsapp="order">
+              <span data-i="talk"></span
+              ><svg
+                class="ui-icon whatsapp-filled"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fill="#25D366"
+                  d="M12 1a11 11 0 0 0-9.5 16.55L1 23l5.65-1.48A11 11 0 1 0 12 1Z"
+                />
+                <path
+                  fill="#fff"
+                  d="M8.05 6.3c-.22 0-.57.08-.87.4-.3.33-1.13 1.1-1.13 2.68s1.16 3.13 1.32 3.34c.16.21 2.27 3.45 5.5 4.85.77.34 1.37.54 1.84.69.77.25 1.49.22 2.04.13.62-.09 1.92-.79 2.19-1.54.27-.75.27-1.4.19-1.54-.08-.13-.3-.21-.62-.38-.32-.16-1.92-.94-2.22-1.05-.29-.11-.51-.16-.73.16-.21.33-.83 1.05-1.02 1.27-.18.21-.38.24-.7.08-.32-.16-1.36-.5-2.59-1.6-.96-.84-1.61-1.9-1.8-2.23-.18-.32-.02-.5.15-.66.15-.14.32-.37.48-.56.16-.19.22-.33.32-.54.11-.22.06-.41-.02-.57-.08-.16-.73-1.75-1-2.4-.25-.64-.52-.55-.72-.56h-.61Z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="art-top">
+            <span>JR / SYSTEM.01</span><span>DESIGN → DEVELOPMENT</span>
+          </div>
+          <div class="blueprint">
+            <div class="cross c1">+</div>
+            <div class="cross c2">+</div>
+            <div class="cross c3">+</div>
+            <div class="cross c4">+</div>
+            <div class="wire w1"></div>
+            <div class="wire w2"></div>
+            <div class="wire w3"></div>
+            <div class="module m1">
+              <span>01</span><b>DESIGN</b
+              ><i
+                ><svg
+                  class="ui-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="m12 3 8 5-4 11H8L4 8l8-5Zm0 0v9M8 19h8v3H8z" />
+                  <circle cx="12" cy="12" r="2" /></svg
+              ></i>
+            </div>
+            <div class="module m2"><span>02</span><b>BUILD</b><i>⌘</i></div>
+            <div class="module m3">
+              <span>03</span><b>SHIP</b
+              ><i
+                ><svg
+                  class="ui-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M14 5c3-3 7-3 7-3s0 4-3 7l-7 7-5-5 8-7ZM6 11l-3 1 1-5 7-1m0 10-1 5 5-1 1-7M5 16l-2 5 5-2"
+                  />
+                  <circle cx="16" cy="7" r="1.5" /></svg
+              ></i>
+            </div>
+            <div class="coordinate">6.2000° S / 106.8167° E</div>
+          </div>
+          <div class="art-bottom">
+            <span data-i="ideasLive">FROM IDEAS TO LIVE EXPERIENCES</span
+            ><span>[ JR.01 ]</span>
+          </div>
+        </div>
+        <div class="hero-bottom">
+          <span data-i="designDevelop"
+            >DESIGNED WITH INTENT. BUILT WITH PRECISION.</span
+          ><a href="#services"
+            ><svg
+              class="ui-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="6" y="2" width="12" height="20" rx="6" />
+              <path d="M12 6v4" /></svg
+            ><span data-i="explore">SCROLL TO EXPLORE</span></a
+          >
+        </div>
+      </section>
+      <div class="proof">
+        <div class="wrap proof-inner">
+          <span data-i="forEvery">FROM IDEA TO IMPACT</span
+          ><span data-i="individuals">Design with purpose</span
+          ><span data-i="smallBusiness">Built for every screen</span
+          ><span data-i="growingBrands">Ready to grow</span
+          ><span data-i="customSystems">Made around you</span>
+        </div>
+      </div>
+      <section class="section wrap" id="services">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow" data-i="serviceIndex"></div>
+            <h2 data-i="serviceTitle"></h2>
+          </div>
+          <p data-i="serviceIntro"></p>
+        </div>
+        <div class="services-grid" id="services-grid"></div>
+      </section>
+      <section class="section pricing-section" id="pricing">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow" data-i="pricingIndex"></div>
+              <h2 data-i="pricingTitle"></h2>
+            </div>
+            <div class="section-side">
+              <p data-i="pricingIntro"></p>
+              <a
+                class="text-button all-packages-link"
+                href="/packages.html"
+                data-i="allPackages"
+                >All packages & add-ons</a
+              ><button id="compare" class="text-button">
+                <span data-i="compare"></span
+                ><svg
+                  class="ui-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M4 8h16m-4-4 4 4-4 4M20 16H4m4-4-4 4 4 4" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="pricing-grid" id="pricing-grid"></div>
+          <div class="pricing-notes" id="pricing-notes"></div>
+          <div class="custom-strip">
+            <div>
+              <strong data-i="notFit"></strong
+              ><span data-i="customSmall"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section wrap" id="works">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow" data-i="worksIndex"></div>
+            <h2 data-i="worksTitle"></h2>
+          </div>
+          <p data-i="worksIntro"></p>
+        </div>
+        <div class="work-empty">
+          <span class="empty-index">[ IN THE WORKS ]</span>
+          <div>
+            <h3 data-i="comingSoon"></h3>
+            <p data-i="workEmpty"></p>
+          </div>
+          <span class="empty-arrow coming-soon-icon" aria-hidden="true"
+            ><svg
+              class="ui-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 2" /></svg
+          ></span>
+        </div>
+      </section>
+      <section class="section wrap process-section" id="process">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow" data-i="processIndex"></div>
+            <h2 data-i="processTitle"></h2>
+          </div>
+          <p data-i="processIntro"></p>
+        </div>
+        <div class="process-grid" id="process-grid"></div>
+      </section>
+      <section class="section principles">
+        <div class="wrap principles-layout">
+          <div>
+            <div class="eyebrow" data-i="whyIndex"></div>
+            <h2 data-i="whyTitle"></h2>
+            <p data-i="whyIntro"></p>
+            <div class="principle-note">
+              LESS FRICTION.<br /><span>MORE FORWARD.</span>
+            </div>
+          </div>
+          <div id="principles-list"></div>
+        </div>
+      </section>
+      <section class="section wrap testimonials">
+        <div class="eyebrow" data-i="feedbackIndex"></div>
+        <div class="feedback-row">
+          <h2 data-i="feedbackTitle"></h2>
+          <p data-i="feedbackEmpty"></p>
+        </div>
+      </section>
+      <section class="section wrap faq-section" id="faq">
+        <div>
+          <div class="eyebrow" data-i="faqIndex"></div>
+          <h2 data-i="faqTitle"></h2>
+          <p data-i="faqIntro"></p>
+        </div>
+        <div id="faq-list"></div>
+      </section>
+      <section class="wrap contact" id="contact">
+        <div class="contact-top">
+          <span data-i="nextIndex"></span
+          ><span>JOKIRUANG / OPEN TO POSSIBILITIES</span>
+        </div>
+        <div class="contact-main">
+          <div>
+            <h2 data-i="contactTitle"></h2>
+            <p data-i="contactIntro"></p>
+          </div>
+          <button class="button light-button" data-whatsapp="custom">
+            <span data-i="discuss"></span
+            ><svg
+              class="ui-icon whatsapp-filled"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                fill="#25D366"
+                d="M12 1a11 11 0 0 0-9.5 16.55L1 23l5.65-1.48A11 11 0 1 0 12 1Z"
+              />
+              <path
+                fill="#fff"
+                d="M8.05 6.3c-.22 0-.57.08-.87.4-.3.33-1.13 1.1-1.13 2.68s1.16 3.13 1.32 3.34c.16.21 2.27 3.45 5.5 4.85.77.34 1.37.54 1.84.69.77.25 1.49.22 2.04.13.62-.09 1.92-.79 2.19-1.54.27-.75.27-1.4.19-1.54-.08-.13-.3-.21-.62-.38-.32-.16-1.92-.94-2.22-1.05-.29-.11-.51-.16-.73.16-.21.33-.83 1.05-1.02 1.27-.18.21-.38.24-.7.08-.32-.16-1.36-.5-2.59-1.6-.96-.84-1.61-1.9-1.8-2.23-.18-.32-.02-.5.15-.66.15-.14.32-.37.48-.56.16-.19.22-.33.32-.54.11-.22.06-.41-.02-.57-.08-.16-.73-1.75-1-2.4-.25-.64-.52-.55-.72-.56h-.61Z"
+              />
+            </svg>
+          </button>
+        </div>
+      </section>
+    </main>
+    <footer class="wrap">
+      <div class="footer-top">
+        <a href="#home" class="brand"
+          >jokiruang<span class="brand-dot">.</span></a
+        >
+        <p data-i="footerTag"></p>
+        <a href="#home" class="text-button"><span data-i="backTop"></span> ↑</a>
+      </div>
+      <div class="footer-bottom">
+        <span
+          >© <span id="year"></span> JokiRuang. <span data-i="rights"></span
+        ></span>
+        <div>
+          <a href="#pricing" data-i="pricing"></a><a href="#faq">FAQ</a
+          ><a href="#contact" data-i="contact"></a>
+        </div>
+        <span data-i="madeIn"></span>
+      </div>
+    </footer>
+    <dialog id="brief-dialog" aria-labelledby="brief-title">
+      <div class="dialog-head">
+        <div>
+          <span class="eyebrow" data-i="briefIndex"></span>
+          <h2 id="brief-title" data-i="briefTitle"></h2>
+        </div>
+        <button class="close icon-btn" aria-label="Close dialog">
+          <svg
+            class="ui-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="m6 6 12 12M18 6 6 18" />
+          </svg>
+        </button>
+      </div>
+      <p class="dialog-intro" data-i="briefIntro"></p>
+      <form id="brief-form">
+        <div class="form-grid" id="form-fields"></div>
+        <div class="handoff-note" data-i="handoffNote"></div>
+        <div class="form-actions">
+          <button
+            type="button"
+            class="button secondary"
+            id="copy-brief"
+            data-i="copyBrief"
+          ></button
+          ><button class="button" type="submit">
+            <span data-i="continueWA"></span
+            ><svg
+              class="ui-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14m-5-5 5 5-5 5" />
+            </svg>
+          </button>
+        </div>
+        <p class="privacy-note" data-i="privacy"></p>
+      </form>
+    </dialog>
+    <dialog id="compare-dialog" aria-labelledby="compare-title">
+      <div class="dialog-head">
+        <h2 id="compare-title" data-i="compareTitle"></h2>
+        <button class="close icon-btn" aria-label="Close dialog">
+          <svg
+            class="ui-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="m6 6 12 12M18 6 6 18" />
+          </svg>
+        </button>
+      </div>
+      <div class="table-scroll" id="compare-table"></div>
+    </dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

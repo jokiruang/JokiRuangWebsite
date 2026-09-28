@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jokiruang-web-studio-v2.gefiranch-ai.chatgpt.site/sitemap.xml
