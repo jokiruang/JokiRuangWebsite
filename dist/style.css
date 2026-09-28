@@ -31,7 +31,8 @@ html[data-theme=light] {
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 90px
+    scroll-padding-top: 90px;
+    overflow-x: hidden
 }
 
 body {
@@ -39,7 +40,8 @@ body {
     background: var(--bg);
     color: var(--text);
     font: 16px/1.6 var(--sans);
-    transition: background .2s, color .2s
+    transition: background .2s, color .2s;
+    overflow-x: hidden
 }
 
 button,
