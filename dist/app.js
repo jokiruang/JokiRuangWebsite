@@ -173,51 +173,62 @@ function orderMessage(kind) {
 function packageDetailHtml(p) { return `<div class="catalog-package-details"><h4>${lang === 'en' ? 'Your team' : 'Tim proyek'}</h4><ul>${p.team[lang].map(s => `<li>${s}</li>`).join('')}</ul><h4>${lang === 'en' ? 'Delivery details' : 'Detail pengerjaan'}</h4><ul>${p.details[lang].map(s => `<li>${s}</li>`).join('')}</ul></div>` }
 function renderAddons() { const target = document.getElementById('addons-table'); if (!target) return; target.innerHTML = `<table><thead><tr><th>${t('addon')}</th><th>${t('addonPrice')}</th><th>${t('addonNotes')}</th></tr></thead><tbody>${window.JOKI_ADDONS.map(row => `<tr>${row[lang].map(v => `<td>${v}</td>`).join('')}</tr>`).join('')}</tbody></table>` }
 
-(function catalogCube() {
+(function catalogSphere() {
     const canvas = document.getElementById('catalog-cube'); if (!canvas) return;
     const ctx = canvas.getContext('2d'); if (!ctx) return;
     const host = canvas.parentElement, media = matchMedia('(prefers-reduced-motion: reduce)');
-    const points = [], seen = new Set();
-    for (let axis = 0; axis < 3; axis++)for (const a of [-1, 1]) for (const b of [-1, 1]) for (let i = 0; i <= 18; i++) {
-        const p = []; p[axis] = -1 + i / 9; p[(axis + 1) % 3] = a; p[(axis + 2) % 3] = b;
-        const key = p.map(v => v.toFixed(3)).join(','); if (seen.has(key)) continue; seen.add(key);
-        const n = points.length; points.push({ p, drift: [Math.sin(n * 12.7), Math.cos(n * 8.3), Math.sin(n * 5.9)] });
+    // Latitude rings, with a small wave in each ring, mirror the dotted reference.
+    const points = []; const rings = matchMedia('(max-width:760px)').matches ? 20 : 28;
+    for (let row = 1; row < rings; row++) {
+        const latitude = Math.PI * row / rings, radius = Math.sin(latitude), count = Math.max(10, Math.round(rings * 2.3 * radius));
+        for (let j = 0; j < count; j++) {
+            const theta = j / count * Math.PI * 2 + row * .065, wave = Math.sin(theta * 4 + row * .42) * .018;
+            const phi = latitude + wave;
+            points.push(Math.sin(phi) * Math.cos(theta), Math.cos(phi), Math.sin(phi) * Math.sin(theta));
+        }
     }
-    let width = 0, height = 0, frame = 0, last = 0, angle = .55, spread = 0, target = 0, visible = true, pointerX = 0, pointerY = 0, followX = 0, followY = 0;
-    function resize() { const r = host.getBoundingClientRect(); width = r.width; height = r.height; const dpr = Math.min(devicePixelRatio || 1, 2); canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); draw() }
+    const xyz = new Float32Array(points), count = xyz.length / 3, screen = new Float32Array(count * 3), next = new Int32Array(count), heads = new Int32Array(11), drift = new Float32Array(count * 3);
+    for (let i = 0; i < drift.length; i++)drift[i] = Math.sin(i * 127.1 + 311.7) * .5 + Math.sin(i * 43.7) * .5;
+    let width = 0, height = 0, frame = 0, last = 0, angle = .4, spread = 0, target = 0, visible = false, pointerX = 0, pointerY = 0, followX = 0, followY = 0;
+    let light = document.documentElement.dataset.theme === 'light';
+    const darkPalette = ['#3160c4', '#3d75dd', '#4a8ced', '#60a5fa', '#76bbff', '#8dceff', '#a5dfff', '#c0edff'];
+    const lightPalette = ['#1743a0', '#1e50b6', '#245dcc', '#286bda', '#2579d6', '#2485c5', '#258fae', '#229aab'];
     function draw() {
-        ctx.clearRect(0, 0, width, height);
-        const turn = Math.cos(angle), sin = Math.sin(angle), scale = Math.min(width, height) * .225;
-        // Rotate around a diagonal axis in the screen plane, lifting the near edge upward.
-        const ax = .86, ay = .51, norm = Math.hypot(ax, ay), ux = ax / norm, uy = ay / norm;
-        const dots = points.map(({ p, drift }, index) => {
-            const wave = Math.sin(angle * 4 + index * .19) * spread * .09;
-            const v = p.map((n, i) => n * (1 + spread * .32) + drift[i] * (spread * .42 + wave));
-            const baseX = v[0] * .866 - v[2] * .5, baseZ = v[0] * .5 + v[2] * .866, baseY = v[1];
-            const dot = ux * baseX + uy * baseY;
-            const x = baseX * turn + uy * baseZ * sin + ux * dot * (1 - turn);
-            const y = baseY * turn - ux * baseZ * sin + uy * dot * (1 - turn);
-            const depth = baseZ * turn + (ux * baseY - uy * baseX) * sin;
-            const perspective = 5 / (5 + depth), mobility = .5 + (drift[2] + 1) * .35;
-            const px = width / 2 + x * scale * perspective, py = height / 2 + y * scale * perspective;
-            const cursorX = width / 2 + followX * width * .35, cursorY = height / 2 + followY * height * .35;
-            const dx = px - cursorX, dy = py - cursorY, dist = Math.hypot(dx, dy), force = Math.exp(-dist * dist / 11000) * spread * 22;
-            return { x: px + followX * spread * 26 * mobility + dx / (dist + 1) * force, y: py + followY * spread * 26 * mobility + dy / (dist + 1) * force, z: depth, s: perspective, light: force / 22 };
-        }).sort((a, b) => b.z - a.z);
-        const light = document.documentElement.dataset.theme === 'light';
-        for (const d of dots) {
-            const alpha = Math.max(.23, Math.min(.95, .62 - d.z * .16));
-            if (d.light > .15) { ctx.globalAlpha = d.light * .10; ctx.fillStyle = light ? '#245be0' : '#7fa8ff'; ctx.beginPath(); ctx.arc(d.x, d.y, 5 * d.s, 0, Math.PI * 2); ctx.fill() }
-            ctx.globalAlpha = alpha; ctx.fillStyle = light ? '#245be0' : d.light > .4 ? '#c8dcff' : '#7fa8ff'; ctx.beginPath(); ctx.arc(d.x, d.y, (1.65 + d.light * .5) * d.s, 0, Math.PI * 2); ctx.fill();
+        ctx.clearRect(0, 0, width, height); const scale = Math.min(width, height) * .30, cy = Math.cos(angle * .65), sy = Math.sin(angle * .65), cx = Math.cos(angle * .42 + .3), sx = Math.sin(angle * .42 + .3);
+        const cursorX = width / 2 + followX * width / 2, cursorY = height / 2 + followY * height / 2; heads.fill(-1);
+        for (let i = 0; i < count; i++) {
+            const k = i * 3, x = xyz[k], y = xyz[k + 1], z = xyz[k + 2], rotX = x * cy - z * sy, rotZ = x * sy + z * cy;
+            const rotY = y * cx - rotZ * sx, depth = y * sx + rotZ * cx, perspective = 4.5 / (4.5 + depth);
+            const expansion = 1 + spread * .38; let px = width / 2 + rotX * scale * perspective * expansion, py = height / 2 + rotY * scale * perspective * expansion;
+            const dx = px - cursorX, dy = py - cursorY, dist2 = dx * dx + dy * dy, force = spread * 19 / (1 + dist2 / 3200), inv = 1 / Math.sqrt(dist2 + 100);
+            px += dx * inv * force + spread * (drift[k] * 21 + followX * (8 + drift[k + 2] * 6)); py += dy * inv * force + spread * (drift[k + 1] * 21 + followY * (8 + drift[k + 2] * 6));
+            screen[k] = px; screen[k + 1] = py; screen[k + 2] = (.85 + (1 - depth) * .24) * perspective * (1 + spread * .06);
+            const near = Math.max(0, 1 - ((px - cursorX) ** 2 + (py - cursorY) ** 2) / 6400) * spread;
+            const bin = near > .2 ? 8 + Math.min(2, Math.floor(near * 3)) : Math.max(0, Math.min(7, Math.floor((1 - depth) * 3.9)));
+            next[i] = heads[bin]; heads[bin] = i;
+        }
+        // Linked buckets visit each dot once; no sorting, blur, or frame allocations.
+        const palette = light ? lightPalette : darkPalette;
+        for (let bin = 0; bin < 11; bin++) {
+            ctx.fillStyle = bin < 8 ? palette[bin] : light ? (bin === 10 ? '#00847f' : '#009caa') : (bin === 10 ? '#edfffb' : bin === 9 ? '#a3ffeb' : '#61e9db'); ctx.globalAlpha = bin < 8 ? .27 + bin * .09 : .72 + (bin - 8) * .13; ctx.beginPath();
+            for (let i = heads[bin]; i !== -1; i = next[i]) { const k = i * 3, r = screen[k + 2] * (bin > 7 ? 1.12 : 1); ctx.moveTo(screen[k] + r, screen[k + 1]); ctx.arc(screen[k], screen[k + 1], r, 0, Math.PI * 2) } ctx.fill();
         } ctx.globalAlpha = 1;
     }
-    function tick(now) { frame = 0; if (!visible || document.hidden || media.matches) return; const dt = Math.min((now - last) || 16, 50); last = now; angle += dt * .00012; const ease = 1 - Math.exp(-dt / 240); spread += (target - spread) * ease; followX += (pointerX - followX) * (1 - Math.exp(-dt / 160)); followY += (pointerY - followY) * (1 - Math.exp(-dt / 160)); draw(); frame = requestAnimationFrame(tick) }
-    function resume() { if (!frame && visible && !document.hidden && !media.matches) { last = performance.now(); frame = requestAnimationFrame(tick) } else if (media.matches) draw() }
-    host.addEventListener('pointerenter', () => { target = 1 }); host.addEventListener('pointermove', event => { const r = host.getBoundingClientRect(); pointerX = Math.max(-1, Math.min(1, (event.clientX - r.left) / r.width * 2 - 1)); pointerY = Math.max(-1, Math.min(1, (event.clientY - r.top) / r.height * 2 - 1)) }); host.addEventListener('pointerleave', () => { target = 0; pointerX = pointerY = 0 });
+    function resize() { const r = host.getBoundingClientRect(); width = r.width; height = r.height; const dpr = Math.min(devicePixelRatio || 1, 1.5); canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); draw() }
+    function tick(now) {
+        frame = 0; if (!visible || document.hidden || media.matches) return;
+        if (now - last >= 1000 / 30) { const dt = Math.min(now - last, 70); last = now; angle += dt * .0001; spread += (target - spread) * (1 - Math.exp(-dt / 360)); followX += (pointerX - followX) * (1 - Math.exp(-dt / 180)); followY += (pointerY - followY) * (1 - Math.exp(-dt / 180)); draw() }
+        frame = requestAnimationFrame(tick);
+    }
+    function resume() { if (!frame && visible && !document.hidden && !media.matches) { last = performance.now(); frame = requestAnimationFrame(tick) } }
+    function stop() { cancelAnimationFrame(frame); frame = 0 }
+    host.addEventListener('pointerenter', () => { target = 1 });
+    host.addEventListener('pointermove', event => { const r = host.getBoundingClientRect(); pointerX = Math.max(-1, Math.min(1, (event.clientX - r.left) / r.width * 2 - 1)); pointerY = Math.max(-1, Math.min(1, (event.clientY - r.top) / r.height * 2 - 1)) }, { passive: true });
+    host.addEventListener('pointerleave', () => { target = 0; pointerX = pointerY = 0 });
     new ResizeObserver(resize).observe(host);
-    new IntersectionObserver(entries => { visible = entries[0].isIntersecting; if (!visible) { cancelAnimationFrame(frame); frame = 0 } else resume() }).observe(host);
-    document.addEventListener('visibilitychange', () => { if (document.hidden) { cancelAnimationFrame(frame); frame = 0 } else resume() });
-    media.addEventListener('change', () => { cancelAnimationFrame(frame); frame = 0; spread = 0; resume() });
-    new MutationObserver(() => { if (media.matches) draw() }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] }); resize(); resume();
+    new IntersectionObserver(entries => { visible = entries[0].isIntersecting; if (visible) resume(); else stop() }).observe(host);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else resume() });
+    media.addEventListener('change', () => { stop(); spread = 0; draw(); resume() });
+    new MutationObserver(() => { light = document.documentElement.dataset.theme === 'light'; draw() }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] }); resize();
 })();
 document.querySelector('[data-back-top]')?.addEventListener('click', event => { event.preventDefault(); window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); history.replaceState(null, '', location.pathname + location.search) });
